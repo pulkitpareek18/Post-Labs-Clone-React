@@ -1,10 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { useGSAP } from '@gsap/react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger)
+import { gsap, ScrollTrigger } from '../utils/gsapConfig'
 
 const Cards = () => {
   const sectionRef = useRef(null)
@@ -45,8 +41,7 @@ const Cards = () => {
     return gsap.timeline({
       defaults: {
         duration: 5,
-        ease: "elastic.out(0.1, 0.15)",
-        offsetY: -100
+        ease: "elastic.out(0.1, 0.15)"
       }
     })
       .to(leftCardRef.current, {
@@ -113,7 +108,7 @@ const Cards = () => {
     
     const handleResize = () => {
       clearTimeout(resizeTimeout)
-      resizeTimeout = setTimeout(initCardStacking, 250)
+      resizeTimeout = setTimeout(() => initCardStacking(), 250)
     }
 
     // Initialize card stacking
@@ -126,11 +121,17 @@ const Cards = () => {
     return () => {
       window.removeEventListener('resize', handleResize)
       clearTimeout(resizeTimeout)
+    }
+  }, []) // Empty dependency array to run only on mount
+
+  // Cleanup ScrollTrigger on unmount
+  useEffect(() => {
+    return () => {
       if (cardScrollTrigger) {
         cardScrollTrigger.kill()
       }
     }
-  }, [initCardStacking, cardScrollTrigger])
+  }, [cardScrollTrigger])
 
   return (
     <section className="card-section" ref={sectionRef}>

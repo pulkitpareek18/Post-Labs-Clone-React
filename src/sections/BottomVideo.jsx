@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { gsap, ScrollTrigger } from '../utils/gsapConfig'
 
 const BottomVideo = () => {
   const sectionRef = useRef(null);
@@ -12,8 +11,6 @@ const BottomVideo = () => {
 
   useGSAP(() => {
     if (typeof gsap === 'undefined') return;
-
-    gsap.registerPlugin(ScrollTrigger);
 
     let videoScrollTrigger;
 

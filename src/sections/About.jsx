@@ -1,24 +1,22 @@
 import React from 'react'
 import FloatingGrid from '../components/FloatingGrid'
 import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { SplitText } from 'gsap/SplitText'
+import { gsap, ScrollTrigger, SplitText } from '../utils/gsapConfig'
 
 const About = () => {
   useGSAP(() => {
     if (typeof gsap === 'undefined' || typeof SplitText === 'undefined') return;
 
-    gsap.registerPlugin(ScrollTrigger, SplitText);
+    // Wait for fonts to load before initializing SplitText
+    const initSplitText = () => {
+      const textElements = document.querySelectorAll('.reveal-text');
 
-    const textElements = document.querySelectorAll('.reveal-text');
-
-    textElements.forEach(textElement => {
-      // Split by characters
-      let splitText = new SplitText(textElement, {
-        type: "chars",
-        charsClass: "split-char"
-      });
+      textElements.forEach(textElement => {
+        // Split by characters
+        let splitText = new SplitText(textElement, {
+          type: "chars",
+          charsClass: "split-char"
+        });
 
       let chars = splitText.chars;
 
@@ -61,6 +59,19 @@ const About = () => {
         }, i * 0.02);
       }
     });
+    };
+
+    // Check if fonts are already loaded
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(initSplitText);
+    } else {
+      // Fallback for browsers that don't support document.fonts
+      if (document.readyState === 'complete') {
+        setTimeout(initSplitText, 100);
+      } else {
+        window.addEventListener('load', () => setTimeout(initSplitText, 100));
+      }
+    }
   });
 
   return (

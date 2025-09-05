@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react'
-import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { gsap } from '../utils/gsapConfig'
 
 import heroGlow from '../assets/hero-glow.svg'
 
