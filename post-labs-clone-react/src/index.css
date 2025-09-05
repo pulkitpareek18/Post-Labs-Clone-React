@@ -1,0 +1,40 @@
+
+.marquee-inner {
+  position: absolute;
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee-horizontal 30s linear infinite;
+  /* manipulate the speed of the marquee by changing "40s" line above*/
+}
+
+.marquee-inner:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-horizontal {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+.card{
+    height: 400px;
+}
+
+.hero-glow {
+    animation: subtle-pulse 2.4s ease-in-out infinite;
+    z-index: -1;
+    background-position: 100% 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: 200%;
+    position: absolute;
+    top: -200px;
+    right: -200px;
+}
